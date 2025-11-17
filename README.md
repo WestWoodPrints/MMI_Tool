@@ -99,7 +99,7 @@ Die virtuelle Umgebung **muss vorher aktiviert sein** (siehe Schritt 3).
 Um das Programm zu starten, führt Folgendes in der aktiven Umgebung aus:
 
 ```bash
-python pose_stickman.py
+python dummy.py
 ```
 
 Danach öffnet sich ein Fenster mit eurem Kamerabild und einem Strichmännchen, das eure Pose verfolgt.
