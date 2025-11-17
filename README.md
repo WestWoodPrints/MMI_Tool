@@ -1,28 +1,45 @@
-# README – Einrichtung einer Python-Umgebung für Pose-Erkennung
+# README – Anleitung zur Einrichtung der Python-Umgebung für das Pose-Erkennungsprojekt
 
-README ist mit ChatGPT erstellt als Anleitung für euch! 
+Diese README wurde mit ChatGPT erstellt und ist speziell dafür gedacht, euch – auch wenn ihr wenig Erfahrung mit Git, Python oder virtuellen Umgebungen habt – Schritt für Schritt durch die Einrichtung zu führen.
+
+Das Ziel:  
+Ihr sollt das Projekt **problemlos starten können**, ohne dass Vorwissen nötig ist.
+
 ---
 
 ## 1. Voraussetzungen
 
-- Python 3.8 oder neuer  
-- pip (meist automatisch in Python enthalten)
+Bevor wir starten, benötigt ihr Folgendes:
+
+- **Python 3.8 oder neuer**  
+  (Mit `python3 --version` im Terminal könnt ihr eure Version prüfen.)
+- **pip**  
+  Wird normalerweise automatisch mit Python installiert.
+- Einen beliebigen Editor (z. B. VS Code, aber nicht zwingend).
+
+Mehr braucht ihr nicht.
 
 ---
 
-## 2. Virtuelle Umgebung "env" erstellen
+## 2. Virtuelle Umgebung ("env") erstellen
 
-Öffne ein Terminal im Projektordner und führe folgenden Befehl aus:
+Eine *virtuelle Umgebung* sorgt dafür, dass alle benötigten Python-Pakete nur für dieses Projekt installiert werden.  
+Das verhindert Chaos auf eurem System.
+
+Öffnet ein Terminal im Projektordner (dort, wo diese README liegt) und führt Folgendes aus:
 
 ```bash
 python3 -m venv env
 ```
 
-Dadurch entsteht ein Ordner `env/`, der alle Projektabhängigkeiten getrennt vom System-Python verwaltet.
+Danach entsteht ein neuer Ordner namens **env**.  
+Darin befindet sich eine isolierte Python-Installation nur für dieses Projekt.
 
 ---
 
 ## 3. Virtuelle Umgebung aktivieren
+
+Bevor ihr Pakete installiert oder das Projekt startet, muss die Umgebung aktiviert werden.
 
 ### Linux / macOS
 
@@ -36,19 +53,25 @@ source env/bin/activate
 .\env\Scripts\Activate
 ```
 
-Wenn die Umgebung aktiv ist, wird vorne im Terminal `(env)` angezeigt.
+Wenn alles richtig funktioniert hat, steht am Anfang jeder Terminalzeile:
+
+```
+(env)
+```
+
+Das bedeutet: Die Umgebung ist aktiv.
 
 ---
 
-## 4. Benötigte Pakete installieren
+## 4. Notwendige Python-Pakete installieren
 
-Installiere die notwendigen Python-Pakete:
+Nun installieren wir die Bibliotheken, die das Programm benötigt:
 
 ```bash
 pip install opencv-python mediapipe
 ```
 
-Falls du eine schlankere Version von OpenCV bevorzugst, kannst du alternativ folgendes installieren:
+Falls ihr Probleme mit OpenCV habt (kommt selten vor), könnt ihr stattdessen die schlankere Version installieren:
 
 ```bash
 pip install opencv-python-headless mediapipe
@@ -56,34 +79,78 @@ pip install opencv-python-headless mediapipe
 
 ---
 
-## 5. Programm starten
+## 5. Installation über eine requirements.txt
 
-Führe das Pose-Erkennungs-Skript aus:
+Falls ihr die Datei `requirements.txt` im Projekt habt (z. B. weil sie mit im Repository liegt), könnt ihr *alle* benötigten Pakete automatisch installieren.
+
+Dazu einfach:
+
+```bash
+pip install -r requirements.txt
+```
+
+Wichtig:  
+Die virtuelle Umgebung **muss vorher aktiviert sein** (siehe Schritt 3).
+
+---
+
+## 6. Projekt starten (Pose-Erkennung)
+
+Um das Programm zu starten, führt Folgendes in der aktiven Umgebung aus:
 
 ```bash
 python pose_stickman.py
 ```
 
-Das Fenster kann mit `q` geschlossen werden.
+Danach öffnet sich ein Fenster mit eurem Kamerabild und einem Strichmännchen, das eure Pose verfolgt.
+
+Beenden könnt ihr das Programm jederzeit mit der Taste:
+
+```
+q
+```
 
 ---
 
-## 6. Virtuelle Umgebung deaktivieren
+## 7. Virtuelle Umgebung deaktivieren
 
-Nach der Arbeit kannst du die Umgebung mit folgendem Befehl verlassen:
+Wenn ihr fertig seid, könnt ihr die Umgebung wieder verlassen:
 
 ```bash
 deactivate
 ```
 
+Damit wechselt ihr zurück in das normale System-Python.
+
 ---
 
-## 7. Optional: Abhängigkeiten speichern
+## 8. Optional: requirements.txt selbst erzeugen
 
-Falls du eine `requirements.txt` erzeugen möchtest:
+Falls ihr Pakete ergänzt habt und die aktuelle Paketliste speichern wollt:
 
 ```bash
 pip freeze > requirements.txt
 ```
 
+Diese Datei kann dann von anderen genutzt werden (siehe Schritt 5).
+
 ---
+
+## 9. Hilfe und Fehlerbehebung (Basics)
+
+### "python3: command not found"
+→ Unter Windows heißt Python oft einfach `python`.
+
+### Kamera funktioniert nicht
+→ Prüft, ob sie in anderen Programmen blockiert ist.
+
+### ModuleNotFoundError
+→ Prüft, ob ihr die Umgebung aktiviert habt (steht `(env)` vorne?).
+
+### Paket lässt sich nicht installieren
+→ Internetverbindung prüfen  
+→ Notfalls alternative OpenCV-Version nutzen (siehe Schritt 4)
+
+---
+
+Wenn ihr weitere Hilfe braucht, z. B. zum Umgang mit Git, VS Code oder dem Terminal, sagt einfach Bescheid.
