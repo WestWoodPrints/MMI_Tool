@@ -10,7 +10,6 @@ import time
 import sys
 from tkinter import filedialog
 
-
 # ----------------------------------------------------------
 # CONFIG
 # ----------------------------------------------------------
@@ -53,11 +52,11 @@ class KneeApp(ctk.CTk):
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
         self.title("MMI-Tool Kniewinkel Analyser")
-        self.geometry("1400x800")
+        self.geometry("1400x1200")
 
-        # Webcam
-        self.cap = cv2.VideoCapture(0)
-        if not self.cap.isOpened():
+        # Webcam Capture
+        self.cam_cap = cv2.VideoCapture(0)
+        if not self.cam_cap.isOpened():
             raise RuntimeError("Kamera konnte nicht geöffnet werden.")
 
         # MediaPipe
@@ -65,9 +64,13 @@ class KneeApp(ctk.CTk):
         self.pose = self.mp_pose.Pose(min_detection_confidence=0.5,
                                       min_tracking_confidence=0.5)
 
-        # Recording
+        # Recording / Video
         self.recording = False
         self.angle_history = []
+
+        self.video_path = None
+        self.video_cap = None
+        self.video_playing = False
 
         # Auto Recording
         self.auto_recording = False
@@ -79,26 +82,26 @@ class KneeApp(ctk.CTk):
         # Layout
         self.columnconfigure(0, weight=1)
         self.columnconfigure(1, weight=1)
-        self.rowconfigure(0, weight=8)
+        self.rowconfigure(0, weight=1)
         self.rowconfigure(1, weight=1)
 
         # -------------------------
-        # Video
+        # Video Label
         # -------------------------
         self.video_label = ctk.CTkLabel(self, text="")
-        self.video_label.grid(row=0, column=0, padx=20, pady=20, sticky="nsew")
+        self.video_label.grid(row=0, column=0, padx=20, pady=20, sticky="nw")
 
         # -------------------------
         # Plot + Controls
         # -------------------------
         right_frame = ctk.CTkFrame(self)
-        right_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nsew")
+        right_frame.grid(row=0, column=1, padx=20, pady=20, sticky="nse")
         right_frame.rowconfigure(0, weight=3)
         right_frame.rowconfigure(1, weight=1)
         right_frame.columnconfigure(0, weight=1)
 
         # Matplotlib Figure
-        self.fig, self.ax = plt.subplots(figsize=(5, 4))
+        self.fig, self.ax = plt.subplots(figsize=(6, 6))
         self.ax.set_title("Knie-Winkel Verlauf")
         self.ax.set_xlabel("Frames")
         self.ax.set_ylabel("Winkel (Grad)")
@@ -133,158 +136,117 @@ class KneeApp(ctk.CTk):
         self.clear_btn = ctk.CTkButton(btn_frame, text="Plot leeren", command=self.clear_plot)
         self.clear_btn.grid(row=0, column=3, padx=10, pady=10)
 
-        # =====================================
-        # Upload-Leiste
-        # =====================================
-        #self.upload_frame.grid(row=1, column=0, padx=20, pady=(0, 20), sticky="ew")
-        #self.upload_frame.columnconfigure(0, weight=1)
-
-        # Label für ausgewählte Datei
+        # -------------------------
+        # Video Upload / Start-Stop
+        # -------------------------
         self.file_label = ctk.CTkLabel(btn_frame, text="Keine Datei ausgewählt")
         self.file_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
-        # Button zum Öffnen des Video-Dateidialogs
         self.upload_btn = ctk.CTkButton(
             btn_frame,
             text="Video auswählen",
-            command=self.open_video_dialog
+            command=self.select_video
         )
         self.upload_btn.grid(row=1, column=1, padx=10, pady=10, sticky="e")
 
-        # Starte Video Loop
+        self.video_start_btn = ctk.CTkButton(
+            btn_frame,
+            text="Video Start/Stop",
+            command=self.toggle_video
+        )
+        self.video_start_btn.grid(row=1, column=2, padx=10, pady=10, sticky="e")
+
+        # Starte Frame Loop
         self.update_frame()
 
     # ------------------------------------------------------
-    def open_video_dialog(self):
+    def select_video(self):
         filepath = filedialog.askopenfilename(
             title="Video auswählen",
-            filetypes=[("Videos", "*.mp4 *.avi *.mov *.mkv"), ("Alle Dateien", "*.*")]
+            filetypes=[("Videos", "*.mp4"), ("Alle Dateien", "*.*")]
         )
         if not filepath:
             return
-
+        self.video_path = filepath
         self.file_label.configure(text=filepath.split("/")[-1])
-        self.process_full_video(filepath)
+        # Video Capture vorbereiten
+        if self.video_cap is not None:
+            self.video_cap.release()
+        self.video_cap = cv2.VideoCapture(self.video_path)
+        self.video_playing = False
 
-    def process_full_video(self, filepath):
-        # Kamera stoppen
-        if self.cap is not None and self.cap.isOpened():
-            self.cap.release()
-
-        cap = cv2.VideoCapture(filepath)
-        if not cap.isOpened():
-            self.file_label.configure(text="Fehler beim Laden")
+    def toggle_video(self):
+        if self.video_cap is None:
             return
+        self.video_playing = not self.video_playing
+        if self.video_playing:
+            #self.angle_history = []  # Neustart
+            self.min_label.configure(text="Ø Minima: --°")
+            self.max_label.configure(text="Ø Maxima: --°")
+            self.angle_label.configure(text="Aktueller Winkel: --°")
 
-        self.angle_history = []
-
-        # Reset Labels
-        self.min_label.configure(text="Ø Minima: --°")
-        self.max_label.configure(text="Ø Maxima: --°")
-        self.angle_label.configure(text="Aktueller Winkel: --°")
-
-        # ---- Analyse des gesamten Videos ----
-        while True:
-            ret, frame = cap.read()
-            if not ret:
-                break
-
-            h, w = frame.shape[:2]
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = self.pose.process(rgb)
-
-            if results.pose_landmarks:
-                lm = results.pose_landmarks.landmark
-
-                hip = (lm[LEFT_HIP].x * w, lm[LEFT_HIP].y * h)
-                knee = (lm[LEFT_KNEE].x * w, lm[LEFT_KNEE].y * h)
-                ankle = (lm[LEFT_ANKLE].x * w, lm[LEFT_ANKLE].y * h)
-
-                angle = calculate_angle(hip, knee, ankle)
-                self.angle_history.append(angle)
-
-        cap.release()
-
-        # ---- Plot & Min/Max ----
-        self.update_plot()
-
-        if len(self.angle_history) >= 60:
-            y = np.array(self.angle_history[30:-30])
-            minima_idx, maxima_idx = detect_local_extrema(y)
-
-            lower_q = np.percentile(y, 15)
-            upper_q = np.percentile(y, 85)
-
-            filtered_min = [y[i] for i in minima_idx if y[i] <= lower_q]
-            filtered_max = [y[i] for i in maxima_idx if y[i] >= upper_q]
-
-            mean_min = np.mean(filtered_min) if filtered_min else np.nan
-            mean_max = np.mean(filtered_max) if filtered_max else np.nan
-
-            self.min_label.configure(text=f"Ø Minima: {mean_min:.1f}°")
-            self.max_label.configure(text=f"Ø Maxima: {mean_max:.1f}°")
-
-        # ---- Das Video als Vorschau abspielen ----
-        self.cap = cv2.VideoCapture(filepath)
-        self.recording = False
-        self.auto_recording = False
-
+    # ------------------------------------------------------
     def update_frame(self):
         if not self.winfo_exists():
             return
 
-        ret, frame = self.cap.read()
+        # Entscheide welche Quelle
+        cap = self.video_cap if (self.video_cap is not None and self.video_playing) else self.cam_cap
+
+        ret, frame = cap.read()
         if not ret:
-            return
-        if ret:
-            h, w = frame.shape[:2]
+            if cap == self.video_cap:
+                # Video Ende
+                self.video_playing = False
+                cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+            frame = np.zeros((480, 640, 3), dtype=np.uint8)  # schwarzes Bild
+        h, w = frame.shape[:2]
 
-            # Pose
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            results = self.pose.process(rgb)
+        # Pose
+        rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        results = self.pose.process(rgb)
 
-            # Countdown Overlay
-            if self.auto_recording and self.auto_start_time:
-                elapsed = time.time() - self.auto_start_time
-                remaining = max(0, int(self.auto_duration - elapsed))
-                cv2.putText(frame, f"{remaining}s", (50, 50), cv2.FONT_HERSHEY_SIMPLEX,
-                            1.5, (0, 0, 255), 3, cv2.LINE_AA)
-                if remaining == 0:
-                    self.stop_recording()
-                    self.auto_recording = False
-                    self.auto_start_time = None
-                    self.set_buttons_state(False)
+        # Countdown Overlay
+        if self.auto_recording and self.auto_start_time:
+            elapsed = time.time() - self.auto_start_time
+            remaining = max(0, int(self.auto_duration - elapsed))
+            cv2.putText(frame, f"{remaining}s", (50, 50), cv2.FONT_HERSHEY_SIMPLEX,
+                        1.5, (0, 0, 255), 3, cv2.LINE_AA)
+            if remaining == 0:
+                self.stop_recording()
+                self.auto_recording = False
+                self.auto_start_time = None
+                self.set_buttons_state(False)
 
-            if results.pose_landmarks:
-                lm = results.pose_landmarks.landmark
-                hip = (int(lm[LEFT_HIP].x * w), int(lm[LEFT_HIP].y * h))
-                knee = (int(lm[LEFT_KNEE].x * w), int(lm[LEFT_KNEE].y * h))
-                ankle = (int(lm[LEFT_ANKLE].x * w), int(lm[LEFT_ANKLE].y * h))
+        if results.pose_landmarks:
+            lm = results.pose_landmarks.landmark
+            hip = (int(lm[LEFT_HIP].x * w), int(lm[LEFT_HIP].y * h))
+            knee = (int(lm[LEFT_KNEE].x * w), int(lm[LEFT_KNEE].y * h))
+            ankle = (int(lm[LEFT_ANKLE].x * w), int(lm[LEFT_ANKLE].y * h))
 
-                angle = calculate_angle(hip, knee, ankle)
-                try:
-                    self.angle_label.configure(text=f"Aktueller Winkel: {angle:.1f}°")
-                except Exception:
-                    pass
-
-                if self.recording:
-                    self.angle_history.append(angle)
-                    self.update_plot()
-
-                # Linien einzeichnen
-                cv2.line(frame, hip, knee, (0, 255, 0), 3)
-                cv2.line(frame, knee, ankle, (0, 255, 0), 3)
-                cv2.circle(frame, knee, 6, (0, 128, 255), -1)
-
-            # Convert to CTkImage
-            frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            img = Image.fromarray(frame_rgb)
+            angle = calculate_angle(hip, knee, ankle)
             try:
-                ctk_img = CTkImage(light_image=img, dark_image=img, size=(w, h))
-                self.video_label.configure(image=ctk_img)
-                self.video_label.image = ctk_img
+                self.angle_label.configure(text=f"Aktueller Winkel: {angle:.1f}°")
             except Exception:
                 pass
+
+            if self.recording or self.video_playing:
+                self.angle_history.append(angle)
+                self.update_plot()
+
+            # Linien einzeichnen
+            cv2.line(frame, hip, knee, (0, 255, 0), 3)
+            cv2.line(frame, knee, ankle, (0, 255, 0), 3)
+            cv2.circle(frame, knee, 6, (0, 128, 255), -1)
+
+        # Convert to CTkImage
+        img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+        try:
+            ctk_img = CTkImage(light_image=img, dark_image=img, size=(w, h))
+            self.video_label.configure(image=ctk_img)
+            self.video_label.image = ctk_img
+        except Exception:
+            pass
 
         # Schedule next frame
         try:
@@ -329,11 +291,11 @@ class KneeApp(ctk.CTk):
         y = np.array(self.angle_history[30:-30])
         minima_idx, maxima_idx = detect_local_extrema(y)
 
-        lower_quartile = np.percentile(y, 25)
+        lower_quartile = np.percentile(y, 10)
         filtered_min = [y[i] for i in minima_idx if y[i] <= lower_quartile]
         mean_min = np.mean(filtered_min) if filtered_min else np.nan
 
-        upper_quartile = np.percentile(y, 75)
+        upper_quartile = np.percentile(y, 90)
         filtered_max = [y[i] for i in maxima_idx if y[i] >= upper_quartile]
         mean_max = np.mean(filtered_max) if filtered_max else np.nan
 
@@ -369,25 +331,22 @@ class KneeApp(ctk.CTk):
 
     def set_buttons_state(self, auto_recording):
         if auto_recording:
-            # Buttons deaktivieren
             self.start_btn.configure(state="disabled", fg_color="#303030")
             self.stop_btn.configure(state="disabled", fg_color="#303030")
             self.clear_btn.configure(state="disabled", fg_color="#303030")
-            self.auto_btn.configure(fg_color="red", state="normal")  # Auto-Record bleibt aktiv
+            self.auto_btn.configure(fg_color="red", state="normal")
         else:
-            # Buttons aktivieren
             self.start_btn.configure(state="normal", fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"])
             self.stop_btn.configure(state="normal", fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"])
             self.clear_btn.configure(state="normal", fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"])
-            self.auto_btn.configure(fg_color="red")  
+            self.auto_btn.configure(fg_color="red")
 
     # ------------------------------------------------------
     def on_closing(self):
-        # Aufnahme stoppen
         self.recording = False
         self.auto_recording = False
+        self.video_playing = False
 
-        # Alle geplanten after-Jobs abbrechen
         if hasattr(self, "update_job") and self.update_job is not None:
             try:
                 self.after_cancel(self.update_job)
@@ -395,23 +354,22 @@ class KneeApp(ctk.CTk):
                 pass
             self.update_job = None
 
-        # Kamera und MediaPipe freigeben
         try:
-            if hasattr(self, "cap") and self.cap.isOpened():
-                self.cap.release()
+            if hasattr(self, "cam_cap") and self.cam_cap.isOpened():
+                self.cam_cap.release()
+            if hasattr(self, "video_cap") and self.video_cap is not None:
+                self.video_cap.release()
             if hasattr(self, "pose"):
                 self.pose.close()
         except Exception:
             pass
 
-        # Fenster zerstören
         try:
             if self.winfo_exists():
                 self.destroy()
         except Exception:
             pass
 
-        # EXE sauber beenden
         sys.exit(0)
 
 # ------------------------------------------------------
