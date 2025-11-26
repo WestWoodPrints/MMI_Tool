@@ -13,7 +13,7 @@ import time
 from collections import deque
 
 # ------- Einstellungen -------
-WEBCAM_INDEX = 2             # anpassen bei mehrern angeschlossenen Kameras 
+WEBCAM_INDEX = 0             # anpassen bei mehrern angeschlossenen Kameras 
 FRAME_WIDTH = 1280
 FRAME_HEIGHT = 720
 SMOOTHING_WINDOW = 4         # Glättung der Landmark-Positionen (kleiner = weniger Verzögerung)

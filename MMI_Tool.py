@@ -50,7 +50,7 @@ class KneeApp(ctk.CTk):
         super().__init__()
         self.protocol("WM_DELETE_WINDOW", self.on_closing)
 
-        self.title("Knee Angle Analyzer")
+        self.title("MMI-Tool Kniewinkel Analyser")
         self.geometry("1400x650")
 
         # Webcam
