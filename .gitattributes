@@ -1,1 +1,2 @@
 MMI_Tool.exe filter=lfs diff=lfs merge=lfs -text
+MMI_Tool_Video.exe filter=lfs diff=lfs merge=lfs -text
