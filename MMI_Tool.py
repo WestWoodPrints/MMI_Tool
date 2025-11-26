@@ -99,11 +99,11 @@ class KneeApp(ctk.CTk):
         self.ax.set_xlabel("Frames")
         self.ax.set_ylabel("Winkel (Grad)")
         self.line, = self.ax.plot([], [], label="Winkel")
-        self.min_line, = self.ax.plot([], [], "ro", label="Minima")
-        self.max_line, = self.ax.plot([], [], "go", label="Maxima")
+        self.min_line, = self.ax.plot([], [], "go", label="Minima")
+        self.max_line, = self.ax.plot([], [], "ro", label="Maxima")
         self.ax.legend()
         self.canvas = FigureCanvasTkAgg(self.fig, master=right_frame)
-        self.canvas.get_tk_widget().grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
+        self.canvas.get_tk_widget().grid(row=0, column=0, padx=10, pady=(10,0), sticky="nsew")
 
         # Info Frame
         info_frame = ctk.CTkFrame(right_frame)
@@ -118,16 +118,16 @@ class KneeApp(ctk.CTk):
 
         # Buttons
         btn_frame = ctk.CTkFrame(info_frame)
-        btn_frame.pack(pady=10)
+        btn_frame.pack(padx=10, pady=(10,10))
         self.start_btn = ctk.CTkButton(btn_frame, text="Start", command=self.start_recording)
-        self.start_btn.grid(row=0, column=0, padx=10)
-        self.stop_btn = ctk.CTkButton(btn_frame, text="Stop", command=self.stop_recording, fg_color="red")
-        self.stop_btn.grid(row=0, column=1, padx=10)
+        self.start_btn.grid(row=0, column=0, padx=10, pady=10)
+        self.stop_btn = ctk.CTkButton(btn_frame, text="Stop", command=self.stop_recording)
+        self.stop_btn.grid(row=0, column=1, padx=10, pady=10)
         self.auto_btn = ctk.CTkButton(btn_frame, text=f"Auto Record ({self.auto_duration}s)",
-                                      command=self.start_auto_recording)
-        self.auto_btn.grid(row=0, column=2, padx=10)
+                                      fg_color="red", hover_color="dark red", command=self.start_auto_recording)
+        self.auto_btn.grid(row=0, column=2, padx=10, pady=10)
         self.clear_btn = ctk.CTkButton(btn_frame, text="Plot leeren", command=self.clear_plot)
-        self.clear_btn.grid(row=0, column=3, padx=10)
+        self.clear_btn.grid(row=0, column=3, padx=10, pady=10)
 
         # Starte Video Loop
         self.update_frame()
@@ -271,14 +271,18 @@ class KneeApp(ctk.CTk):
         self.angle_label.configure(text="Aktueller Winkel: --°")
 
     def set_buttons_state(self, auto_recording):
-        state = "disabled" if auto_recording else "normal"
-        self.start_btn.configure(state=state)
-        self.stop_btn.configure(state=state)
-        self.clear_btn.configure(state=state)
         if auto_recording:
-            self.auto_btn.configure(fg_color="red", state="normal")
+            # Buttons deaktivieren
+            self.start_btn.configure(state="disabled", fg_color="#303030")
+            self.stop_btn.configure(state="disabled", fg_color="#303030")
+            self.clear_btn.configure(state="disabled", fg_color="#303030")
+            self.auto_btn.configure(fg_color="red", state="normal")  # Auto-Record bleibt aktiv
         else:
-            self.auto_btn.configure(fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"], state="normal")
+            # Buttons aktivieren
+            self.start_btn.configure(state="normal", fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"])
+            self.stop_btn.configure(state="normal", fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"])
+            self.clear_btn.configure(state="normal", fg_color=ctk.ThemeManager.theme["CTkButton"]["fg_color"])
+            self.auto_btn.configure(fg_color="red")  
 
     # ------------------------------------------------------
     def on_closing(self):
