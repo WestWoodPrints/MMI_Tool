@@ -136,7 +136,20 @@ Diese Datei kann dann von anderen genutzt werden (siehe Schritt 5).
 
 ---
 
-## 9. Hilfe und Fehlerbehebung (Basics)
+## 9. Optional: requirements.txt selbst erzeugen
+
+EXE kann mit folgendem befehl erzeugt werden
+
+```bash
+pyinstaller --onefile --windowed `
+--add-data "env\Lib\site-packages\mediapipe/modules/pose_detection/pose_detection.tflite;mediapipe/modules/pose_detection" `
+--add-data "env\Lib\site-packages\mediapipe/modules/pose_landmark/pose_landmark_full.tflite;mediapipe/modules/pose_landmark" `
+--add-data "env\Lib\site-packages\mediapipe/modules/pose_landmark/pose_landmark_cpu.binarypb;mediapipe/modules/pose_landmark" `
+MMI_Tool.py
+```
+
+---
+## 10. Hilfe und Fehlerbehebung (Basics)
 
 ### "python3: command not found"
 → Unter Windows heißt Python oft einfach `python`.
@@ -153,4 +166,4 @@ Diese Datei kann dann von anderen genutzt werden (siehe Schritt 5).
 
 ---
 
-Wenn ihr weitere Hilfe braucht, z. B. zum Umgang mit Git, VS Code oder dem Terminal, sagt einfach Bescheid.
+
