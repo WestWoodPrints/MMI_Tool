@@ -7,6 +7,15 @@ Ihr sollt das Projekt **problemlos starten können**, ohne dass Vorwissen nötig
 
 ---
 
+## 0. Probleme beim ausführen der .exe
+- **Programm start Zeiten:**
+  Es ist normal, dass die .exe ein paar sekunden zum starten braucht. Es erscheint aber kein Boot-Screen wie Solidworks. Wenn das programm nach *30 Sekunden nicht gestartet* ist kann es sein dass ihr euch *Visual C++* fehlt. Das könnt ihr einfach unter `https://learn.microsoft.com/de-de/cpp/windows/latest-supported-vc-redist?iew=msvc-170#latest-supported-redistributable-version` herunterladen und euch die neuste Version von *Visual C++* installieren.  
+
+- **Kamera Bild ist schwarz:**
+  Wenn nicht sofort das Live bild der angeschlossenen Kamera angezeigt wird sondern ein Black-Screen, dann kann es sein das ihr mehr als eine Kamera Angeschlossen habt, bzw. eure Kamera nicht den index *0* hat. Bei einem Laptop sollte eigendlich immer die Innenkamera erkannt werden. Zur Zeit gibt es noch kein Feature zur Kameraauswahl. Das hab ich noch auf meiner TODO-Liste. 
+
+---
+
 ## 1. Voraussetzungen
 
 Bevor wir starten, benötigt ihr Folgendes:
