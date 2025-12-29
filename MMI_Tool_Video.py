@@ -244,10 +244,10 @@ class KneeApp(ctk.CTk):
         )
         if filepath:
             with open(filepath, "w", newline="") as f:
-                writer = csv.writer(f)
+                writer = csv.writer(f, delimiter=";")
                 writer.writerow(["Frame", "Winkel"])
                 for i, angle in enumerate(self.angle_history):
-                    writer.writerow([i, angle])
+                    writer.writerow([i, int(round(angle))])
 
     # ------------------------------------------------------
     def update_frame(self):
