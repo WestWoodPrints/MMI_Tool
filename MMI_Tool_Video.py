@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import time
 import sys
 from tkinter import filedialog
+import csv
 
 # ----------------------------------------------------------
 # CONFIG
@@ -55,7 +56,8 @@ class KneeApp(ctk.CTk):
         self.geometry("1400x1200")
 
         # Webcam Capture
-        self.cam_cap = cv2.VideoCapture(0)
+        self.current_cam_index = 0
+        self.cam_cap = cv2.VideoCapture(self.current_cam_index, cv2.CAP_DSHOW)
         if not self.cam_cap.isOpened():
             raise RuntimeError("Kamera konnte nicht geöffnet werden.")
 
@@ -156,6 +158,34 @@ class KneeApp(ctk.CTk):
         )
         self.video_start_btn.grid(row=1, column=1, padx=10, pady=10, sticky="e")
 
+        self.csv_btn = ctk.CTkButton(
+            btn_frame,
+            text="CSV Export",fg_color="red", hover_color="dark red",
+            command=self.export_csv
+        )
+        self.csv_btn.grid(row=1, column=2, padx=10, pady=10, sticky="e")
+
+        self.cam_label = ctk.CTkLabel(btn_frame, text="Kamera:")
+        self.cam_label.grid(row=2, column=0, padx=10, pady=10, sticky="e")
+        self.cam_option = ctk.CTkOptionMenu(
+            btn_frame,
+            values=[str(i) for i in range(4)],
+            command=self.change_camera
+        )
+        self.cam_option.set(str(self.current_cam_index))
+        self.cam_option.grid(row=2, column=1, padx=10, pady=10, sticky="w")
+
+        self.duration_label = ctk.CTkLabel(btn_frame, text="Auto-Rec (s):")
+        self.duration_label.grid(row=2, column=2, padx=10, pady=10, sticky="e")
+
+        self.duration_option = ctk.CTkOptionMenu(
+            btn_frame,
+            values=["5", "10", "20", "30", "60", "120"],
+            command=self.update_auto_duration
+        )
+        self.duration_option.set(str(self.auto_duration))
+        self.duration_option.grid(row=2, column=3, padx=10, pady=10, sticky="w")
+
         # Starte Frame Loop
         self.update_frame()
 
@@ -184,6 +214,40 @@ class KneeApp(ctk.CTk):
             self.min_label.configure(text="Ø Minima: --°")
             self.max_label.configure(text="Ø Maxima: --°")
             self.angle_label.configure(text="Aktueller Winkel: --°")
+
+    def change_camera(self, selection):
+        idx = int(selection)
+        if idx == self.current_cam_index:
+            return
+        
+        if self.cam_cap is not None:
+            self.cam_cap.release()
+            
+        self.current_cam_index = idx
+        self.cam_cap = cv2.VideoCapture(self.current_cam_index, cv2.CAP_DSHOW)
+
+    def update_auto_duration(self, selection):
+        try:
+            self.auto_duration = float(selection)
+            self.auto_btn.configure(text=f"Auto Record ({self.auto_duration}s)")
+        except ValueError:
+            pass
+
+    def export_csv(self):
+        if not self.angle_history:
+            return
+            
+        filepath = filedialog.asksaveasfilename(
+            title="CSV Exportieren",
+            defaultextension=".csv",
+            filetypes=[("CSV Dateien", "*.csv"), ("Alle Dateien", "*.*")]
+        )
+        if filepath:
+            with open(filepath, "w", newline="") as f:
+                writer = csv.writer(f)
+                writer.writerow(["Frame", "Winkel"])
+                for i, angle in enumerate(self.angle_history):
+                    writer.writerow([i, angle])
 
     # ------------------------------------------------------
     def update_frame(self):
@@ -309,6 +373,15 @@ class KneeApp(ctk.CTk):
     def start_auto_recording(self):
         if self.auto_recording:
             return
+
+        try:
+            val = float(self.duration_option.get())
+            if val > 0:
+                self.auto_duration = val
+                self.auto_btn.configure(text=f"Auto Record ({self.auto_duration}s)")
+        except ValueError:
+            pass
+
         self.start_recording()
         self.auto_recording = True
         self.auto_start_time = time.time()
