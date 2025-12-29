@@ -139,22 +139,22 @@ class KneeApp(ctk.CTk):
         # -------------------------
         # Video Upload / Start-Stop
         # -------------------------
-        self.file_label = ctk.CTkLabel(btn_frame, text="Keine Datei ausgewählt")
-        self.file_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
+        #self.file_label = ctk.CTkLabel(btn_frame, text="Keine Datei ausgewählt")
+        #self.file_label.grid(row=1, column=0, padx=10, pady=10, sticky="w")
 
         self.upload_btn = ctk.CTkButton(
             btn_frame,
             text="Video auswählen",
             command=self.select_video
         )
-        self.upload_btn.grid(row=1, column=1, padx=10, pady=10, sticky="e")
+        self.upload_btn.grid(row=1, column=0, padx=10, pady=10, sticky="e")
 
         self.video_start_btn = ctk.CTkButton(
             btn_frame,
             text="Video Start/Stop",
             command=self.toggle_video
         )
-        self.video_start_btn.grid(row=1, column=2, padx=10, pady=10, sticky="e")
+        self.video_start_btn.grid(row=1, column=1, padx=10, pady=10, sticky="e")
 
         # Starte Frame Loop
         self.update_frame()
@@ -168,7 +168,7 @@ class KneeApp(ctk.CTk):
         if not filepath:
             return
         self.video_path = filepath
-        self.file_label.configure(text=filepath.split("/")[-1])
+        #self.file_label.configure(text=filepath.split("/")[-1])
         # Video Capture vorbereiten
         if self.video_cap is not None:
             self.video_cap.release()
