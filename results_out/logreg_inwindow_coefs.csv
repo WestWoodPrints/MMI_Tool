@@ -1,0 +1,45 @@
+feature,coef
+Gefühl Sitzposition_Etwas besser,0.6976039939231817
+Dauer aktives Radfahren,-0.6508360880994882
+Form der Fahrradnutzung_Sonstiges,0.5679221941326672
+Nutzung Methode_Augenmaß / Gefühl,-0.5607460275983654
+Ben. Zeit,-0.48345378542929507
+Fahrradtyp_Trecking,0.4677617135789809
+Fahrradtyp_Sonstige,-0.43092553172334386
+Gefühl Sitzposition_Kein Unterschied,-0.40198838937273895
+Fahrradtyp_Gravelbike,0.3909851747997953
+Gefühl Sitzposition_Deutlich besser,-0.37843292666551503
+"Satteleinstellung, wer_Ich selbst",0.36553857946099083
+Nutzung Methode_Fersenmethode,0.35943648687606466
+Methode bekannt_Fersenmethode,0.35943648687606466
+Form der Fahrradnutzung_Beides,-0.3447139837782559
+Sitzhoehe_rel,-0.29954254476703573
+Methode bekannt_Formeln / Berechnung nach Beinlänge,0.2658096828130714
+Form der Fahrradnutzung_Sport / Training,0.26290063571178524
+Gefühl Sitzposition_Etwas schlechter,0.26216406838192907
+Fahrradtyp_E-Bike,0.2334636798392476
+Sitzhöhe,-0.22934083965860919
+Methode bekannt_keine,-0.21166932745871783
+n_Methods_known,0.21147760220904036
+"Satteleinstellung, wer_Fahrradladen / Mechaniker",0.20392368229285648
+Nutzung Methode_Hüfte,0.1945561562249488
+Nutzung Methode_Formeln / Berechnung nach Beinlänge,-0.19118410987116066
+km/Woche_Code,0.19045929051280702
+Form der Fahrradnutzung_Reines Fortbewegungsmittel,-0.1757094963990583
+Methode bekannt_Kniewinkel,-0.13883151561096171
+Dauer Satteleinst.,0.11929876840652323
+Zuverlässigkeit,-0.1077694825578698
+Größe,0.10716352929267674
+Veränderungsimpuls,0.10055026620248413
+Häufigkeit / Woche,-0.08470208058655748
+n_Methods_used,-0.08094664546614973
+Alter,0.061278996604602655
+Methode bekannt_Hüfte,-0.05965316249386579
+Längerer Zeitraum,0.0566585180079674
+Fahrradtyp_City/Commuter,-0.05111175104749836
+Beininnenlänge,-0.05082082225185933
+Fahrradtyp_Moutainbike,0.02965605426456808
+Fahrradtyp_Rennard,-0.018900979412943986
+Geschlecht_männlich,-0.004437115705501615
+Geschlecht_weiblich,0.004437115705501588
+Form der Fahrradnutzung_Gelegentlich/Kein regelmäßiges Fahren,-0.002948906355539448
