@@ -1,45 +1,45 @@
 feature,coef
-Nutzung Methode_Augenmaß / Gefühl,0.9821050899089907
-Gefühl Sitzposition_Etwas besser,-0.8807913086786803
-Fahrradtyp_Trecking,-0.8647790882917386
-Ben. Zeit,0.8628078192186052
-Dauer aktives Radfahren,0.8585236480163443
-n_Methods_used,0.7751168668359171
-Fahrradtyp_Gravelbike,-0.5135798131565208
-Methode bekannt_Formeln / Berechnung nach Beinlänge,-0.49720124279834566
-"Satteleinstellung, wer_Fahrradladen / Mechaniker",-0.485280391765056
-Form der Fahrradnutzung_Beides,0.45033630573969535
-Form der Fahrradnutzung_Gelegentlich/Kein regelmäßiges Fahren,0.44710567307384563
-Häufigkeit / Woche,-0.4308535353119316
-Dauer Satteleinst.,-0.4092254007475514
-Form der Fahrradnutzung_Reines Fortbewegungsmittel,-0.39776558255175126
-Zuverlässigkeit,-0.39630269194342527
-Form der Fahrradnutzung_Sonstiges,-0.3940377575111231
-Fahrradtyp_City/Commuter,0.33297904866499556
-Fahrradtyp_Rennard,-0.3326004785362088
-Form der Fahrradnutzung_Sport / Training,-0.31307341306509395
-Nutzung Methode_Hüfte,-0.2849933621479551
-Gefühl Sitzposition_Deutlich besser,0.2558133408674518
-Nutzung Methode_Fersenmethode,0.2555254210594373
-Methode bekannt_Fersenmethode,0.2555254210594373
-Methode bekannt_Hüfte,-0.2515768193039464
-Größe,0.22529377121888727
-n_Methods_known,-0.19162834091149394
-Fahrradtyp_Moutainbike,0.18404857936361982
-Methode bekannt_keine,0.16972706746957456
-Sitzhoehe_rel,0.14861324176688795
-Gefühl Sitzposition_Kein Unterschied,0.14080541401445412
-Geschlecht_weiblich,-0.14060787810333686
-Geschlecht_männlich,0.14060787810333686
-Gefühl Sitzposition_Etwas schlechter,0.13298857594289282
-Sitzhöhe,0.1279491107899336
-Fahrradtyp_E-Bike,-0.11563664587891573
-Längerer Zeitraum,-0.11004247883918408
-km/Woche_Code,0.10607008067956197
-Fahrradtyp_Sonstige,-0.1057349856868686
-Veränderungsimpuls,-0.07888315953558495
-Nutzung Methode_Formeln / Berechnung nach Beinlänge,0.06480503146681908
-Beininnenlänge,0.049675743168436676
-"Satteleinstellung, wer_Ich selbst",0.01988063443872103
-Alter,-0.019708728356248706
-Methode bekannt_Kniewinkel,-0.009659230541175345
+Dauer aktives Radfahren,0.7074110798419428
+Nutzung Methode_Augenmaß / Gefühl,0.6290636771428846
+Gefühl Sitzposition_Etwas besser,-0.592224009206961
+Fahrradtyp_Trecking,-0.5823536887479568
+Ben. Zeit,0.5678975234244552
+n_Methods_used,0.49630441292160743
+Form der Fahrradnutzung_Beides,0.38246661338230026
+Fahrradtyp_Gravelbike,-0.31388625488862265
+Methode bekannt_Formeln / Berechnung nach Beinlänge,-0.3024505688212659
+Gefühl Sitzposition_Kein Unterschied,0.2696523542386997
+Form der Fahrradnutzung_Sport / Training,-0.26071762600217335
+Methode bekannt_keine,0.23450905269468958
+Dauer Satteleinst.,-0.23326859112675685
+Häufigkeit / Woche,-0.23225006608669302
+Form der Fahrradnutzung_Sonstiges,-0.2296443779201022
+Nutzung Methode_Hüfte,-0.22639675941956372
+Fahrradtyp_City/Commuter,0.21254350490234128
+"Satteleinstellung, wer_Fahrradladen / Mechaniker",-0.21010046173549973
+Nutzung Methode_Fersenmethode,0.20026272163315262
+Methode bekannt_Fersenmethode,0.20026272163315262
+Methode bekannt_Hüfte,-0.1732246094853801
+Größe,0.1725134788829933
+Zuverlässigkeit,-0.16388383598219647
+Alter,0.15274157905535524
+Form der Fahrradnutzung_Reines Fortbewegungsmittel,-0.13773747754190438
+Fahrradtyp_Sonstige,-0.13728556971207517
+n_Methods_known,-0.13008840804663258
+Fahrradtyp_Rennard,-0.1265740196987656
+Sitzhöhe,0.10690304929271444
+Beininnenlänge,0.10268679156765609
+Längerer Zeitraum,0.09140026612068589
+Fahrradtyp_E-Bike,-0.08637481037148806
+Geschlecht_männlich,0.08427426116911696
+Geschlecht_weiblich,-0.08427426116911696
+Fahrradtyp_Moutainbike,0.07378429162486817
+Form der Fahrradnutzung_Gelegentlich/Kein regelmäßiges Fahren,0.06620656186971469
+Methode bekannt_Kniewinkel,-0.06410007207038965
+Veränderungsimpuls,-0.047703126633599935
+km/Woche_Code,0.03468948328789431
+"Satteleinstellung, wer_Ich selbst",-0.027830286360508785
+Nutzung Methode_Formeln / Berechnung nach Beinlänge,0.025259920542661504
+Sitzhoehe_rel,0.02414407544091307
+Gefühl Sitzposition_Etwas schlechter,-0.012572426094172334
+Gefühl Sitzposition_Deutlich besser,0.005398523805132706
