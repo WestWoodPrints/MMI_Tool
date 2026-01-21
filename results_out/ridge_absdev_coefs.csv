@@ -1,45 +1,49 @@
 feature,coef
-Dauer aktives Radfahren,0.7074110798419428
-Nutzung Methode_Augenmaß / Gefühl,0.6290636771428846
-Gefühl Sitzposition_Etwas besser,-0.592224009206961
-Fahrradtyp_Trecking,-0.5823536887479568
-Ben. Zeit,0.5678975234244552
-n_Methods_used,0.49630441292160743
-Form der Fahrradnutzung_Beides,0.38246661338230026
-Fahrradtyp_Gravelbike,-0.31388625488862265
-Methode bekannt_Formeln / Berechnung nach Beinlänge,-0.3024505688212659
-Gefühl Sitzposition_Kein Unterschied,0.2696523542386997
-Form der Fahrradnutzung_Sport / Training,-0.26071762600217335
-Methode bekannt_keine,0.23450905269468958
-Dauer Satteleinst.,-0.23326859112675685
-Häufigkeit / Woche,-0.23225006608669302
-Form der Fahrradnutzung_Sonstiges,-0.2296443779201022
-Nutzung Methode_Hüfte,-0.22639675941956372
-Fahrradtyp_City/Commuter,0.21254350490234128
-"Satteleinstellung, wer_Fahrradladen / Mechaniker",-0.21010046173549973
-Nutzung Methode_Fersenmethode,0.20026272163315262
-Methode bekannt_Fersenmethode,0.20026272163315262
-Methode bekannt_Hüfte,-0.1732246094853801
-Größe,0.1725134788829933
-Zuverlässigkeit,-0.16388383598219647
-Alter,0.15274157905535524
-Form der Fahrradnutzung_Reines Fortbewegungsmittel,-0.13773747754190438
-Fahrradtyp_Sonstige,-0.13728556971207517
-n_Methods_known,-0.13008840804663258
-Fahrradtyp_Rennard,-0.1265740196987656
-Sitzhöhe,0.10690304929271444
-Beininnenlänge,0.10268679156765609
-Längerer Zeitraum,0.09140026612068589
-Fahrradtyp_E-Bike,-0.08637481037148806
-Geschlecht_männlich,0.08427426116911696
-Geschlecht_weiblich,-0.08427426116911696
-Fahrradtyp_Moutainbike,0.07378429162486817
-Form der Fahrradnutzung_Gelegentlich/Kein regelmäßiges Fahren,0.06620656186971469
-Methode bekannt_Kniewinkel,-0.06410007207038965
-Veränderungsimpuls,-0.047703126633599935
-km/Woche_Code,0.03468948328789431
-"Satteleinstellung, wer_Ich selbst",-0.027830286360508785
-Nutzung Methode_Formeln / Berechnung nach Beinlänge,0.025259920542661504
-Sitzhoehe_rel,0.02414407544091307
-Gefühl Sitzposition_Etwas schlechter,-0.012572426094172334
-Gefühl Sitzposition_Deutlich besser,0.005398523805132706
+Form der Fahrradnutzung_Beides,0.26388609656005174
+Nutzung Methode_Augenmaß / Gefühl,0.2614642286016092
+Dauer aktives Radfahren,0.24532499071411457
+Gefühl Sitzposition_Etwas besser,-0.18402865853356076
+Form der Fahrradnutzung_Sport / Training,-0.18235683963297633
+Nutzung Methode_Kniewinkel,-0.16610434507897065
+Beininnenlänge,0.1475658837185493
+Nutzung Methode_Hüfte,-0.14752668593574286
+Größe,0.1314682423055605
+Fahrradtyp_Trecking,-0.1305238833415547
+Fahrradtyp_Gravelbike,-0.1279965719095247
+Methode bekannt_Hüfte,-0.12409508617474416
+Fahrradtyp_Sonstige,-0.11852463512696841
+Methode bekannt_keine,0.11589854966431624
+Dauer Satteleinst.,-0.11468918231336402
+Alter,0.1068924796475706
+"Satteleinstellung, wer_Fahrradladen / Mechaniker",-0.10667463038712721
+Ben. Zeit,0.10485613788424661
+Sitzhoehe_rel,-0.10283285856797302
+Form der Fahrradnutzung_Gelegentlich/Kein regelmäßiges Fahren,-0.08206119262707169
+Fahrradtyp_Crosscountry,0.08144719147368978
+Professionelles Bikefitting_Ja [Jahr],0.08144719147368978
+Professionelles Bikefitting_Nein,-0.08144719147368978
+Fahrradtyp_E-Bike,-0.08035406639895176
+n_Methods_used,0.0756184394471788
+Form der Fahrradnutzung_Sonstiges,-0.07371440073387206
+Methode bekannt_Formeln / Berechnung nach Beinlänge,0.06997184737946555
+Sitzhöhe,0.0676781984589129
+Gefühl Sitzposition_Kein Unterschied,0.06526919699932063
+Fahrradtyp_Moutainbike,-0.05811278174732694
+Gefühl Sitzposition_Deutlich besser,-0.0581040811939437
+Zuverlässigkeit,0.05741655250532455
+km/Woche_Code,0.05372913126956299
+Häufigkeit / Woche,-0.03676769505856535
+Form der Fahrradnutzung_Reines Fortbewegungsmittel,-0.034827547664333006
+Gefühl Sitzposition_Etwas schlechter,0.03012281916728056
+Fahrradtyp_City/Commuter,0.025988132756673676
+Nutzung Methode_Fersenmethode,0.02307047809770683
+Methode bekannt_Fersenmethode,0.02307047809770683
+Geschlecht_männlich,0.019497686142065457
+Geschlecht_weiblich,-0.019497686142065457
+Methode bekannt_Kniewinkel,-0.015763995225006183
+Längerer Zeitraum,-0.015469412761063934
+Veränderungsimpuls,-0.012619543448817147
+Fahrradtyp_Rennard,0.01174527828204549
+n_Methods_known,-0.005480149227119121
+Nutzung Methode_Formeln / Berechnung nach Beinlänge,-0.001986649529218691
+"Satteleinstellung, wer_Ich selbst",0.001546971282379415
